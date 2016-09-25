@@ -19,4 +19,16 @@ board.on('ready', function() {
     multi.on('change', function() {
         console.log("Temp: ", this.thermometer.celsius, " Pressure: ", this.barometer.pressure, " Altitude: ", this.altimeter.meters);
     });
+
+    var app = express();
+
+    app.get('/', function(req, res) {
+        var board = {
+            "temp": this.thermometer.celsius,
+            "pressure": this.barometer.pressure,
+            "altitude": this.altimeter.meters
+        }
+
+        res.send(board);
+    });
 });
