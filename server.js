@@ -24,9 +24,9 @@ board.on('ready', function() {
 
     app.get('/', function(req, res) {
         var board = {
-            "temp": this.thermometer.celsius,
-            "pressure": this.barometer.pressure,
-            "altitude": this.altimeter.meters
+            "temp": multi.thermometer.celsius,
+            "pressure": multi.barometer.pressure,
+            "altitude": multi.altimeter.meters
         }
 
         res.send(board);
