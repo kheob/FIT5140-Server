@@ -11,6 +11,8 @@ board.on('ready', function() {
         controller: "MPL3115A2",
         elevation: 23
     });
+    
+    console.log("Hello!");
 
     console.log("Server starting");
 
