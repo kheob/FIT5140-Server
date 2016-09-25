@@ -1,5 +1,5 @@
-var johnny = require('johnny-five');
-var raspio = require('rasp-io');
+var five = require('johnny-five');
+var raspio = require('raspi-io');
 var express = require('express');
 
 var board = new five.Board({
