@@ -105,11 +105,11 @@ board.on('ready', function() {
                 var retrievedUpdates = [];
 
                 // Retrieve the updates that fall between these two dates
-                for (var entry in barometerValues) {
+                for (var i in barometerValues) {
+                    var entry = barometerValues[i];
+
                     // Turn into date object
                     var date = new Date(entry["date"]);
-
-                    console.log(entry);
 
                     console.log("start date: ", startDate, " date: ", date, " end date: ", endDate);
 
