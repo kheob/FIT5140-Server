@@ -65,9 +65,12 @@ board.on('ready', function() {
     // Configure server routes
     var app = express();
 
+    // // Configure static server
+    // app.use(express.static(__dirname + '/static'));
+
     // Homepage shows API doc
     app.get('/', function(req, res) {
-        res.sendFile('static/index.html');
+        res.sendfile(__dirname + '/static/index.html');
     });
 
     /**
