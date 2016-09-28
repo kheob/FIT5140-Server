@@ -48,13 +48,13 @@ board.on('ready', function() {
 
         res.send(count, startDate, endDate);
 
-        var values = {
-            "temperature": multi.thermometer.celsius,
-            "pressure": multi.barometer.pressure,
-            "altitude": multi.altimeter.meters
-        };
-
-        res.json(values);
+        // var values = {
+        //     "temperature": multi.thermometer.celsius,
+        //     "pressure": multi.barometer.pressure,
+        //     "altitude": multi.altimeter.meters
+        // };
+        //
+        // res.json(values);
     });
 
     // Start the server
