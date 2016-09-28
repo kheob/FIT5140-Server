@@ -103,7 +103,7 @@ board.on('ready', function() {
                 }
             } else {
                 // Couldn't parse count value, return error
-                res.json({
+                res.status(400).json({
                     "error": "Count parameter must be a valid integer value."
                 });
             }
@@ -139,14 +139,14 @@ board.on('ready', function() {
                 // Return the updates
                 res.json(retrievedUpdates);
             } else {
-                res.json({
+                res.status(400).json({
                     "error": "Please ensure that you use the correct date format: e.g. '2011-12-20T14:48:00'"
                 });
             }
         }
 
         else {
-            res.json({
+            res.status(400).json({
                 "error": "Error reading parameters. Use either 'count' to specify the number of updates to retrieve, or 'startDate' and 'endDate' to specify the period of the updates to be returned."
             });
         }
