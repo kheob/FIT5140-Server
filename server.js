@@ -29,6 +29,7 @@ board.on('ready', function() {
             "altitude": multi.altimeter.meters
         };
 
+        // Stores date as unix time in seconds
         var date = new Date().getTime() / 1000;
 
         // JSON object with date as key
@@ -58,7 +59,7 @@ board.on('ready', function() {
         }
 
         // Return last N updates if a count is given
-        else if (count != null) {
+        else if (count != null && Object.keys(req.query).length == 1) {
             // Try to parse
             count = parseInt(count);
 
@@ -83,13 +84,18 @@ board.on('ready', function() {
             }
         }
 
-        // var values = {
-        //     "temperature": multi.thermometer.celsius,
-        //     "pressure": multi.barometer.pressure,
-        //     "altitude": multi.altimeter.meters
-        // };
-        //
-        // res.json(values);
+        // Return updates within the given start and end dates
+        else if (startDate != null && endDate != null && Object.keys(req.query).length == 1) {
+            // Get date from query (ISO-8601 format: e.g. 2011-10-10T14:48:00)
+            startDate = new Date(startDate);
+            endDate = new Date(endDate);
+
+            res.json({
+                "start": startDate,
+                "end": endDate
+            });
+        }
+
     });
 
     // Start the server
