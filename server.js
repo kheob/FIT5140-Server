@@ -47,10 +47,10 @@ board.on('ready', function() {
 
         // Publish values on the MQTT server
         var message = {
-            topic: '/hello/world',
-            payload: 'abcde', // or a Buffer
-            qos: 0, // 0, 1, or 2
-            retain: false // or true
+            topic: 'barometer',
+            payload: values,
+            qos: 0,
+            retain: false
         };
 
         mqtt.publish(message, function() {
