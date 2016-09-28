@@ -54,7 +54,6 @@ board.on('ready', function() {
         };
 
         mqtt.publish(message, function() {
-            console.log('done!');
         });
     });
 
@@ -169,7 +168,6 @@ board.on('ready', function() {
 
     // fired when a message is received
     mqtt.on('published', function(packet, client) {
-        console.log('Published', packet.payload);
     });
 
     mqtt.on('ready', function() {
