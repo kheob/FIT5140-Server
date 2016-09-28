@@ -32,8 +32,6 @@ board.on('ready', function() {
         // Stores date as ISO string
         var date = new Date().toISOString();
 
-        console.log(new Date().getTimezoneOffset());
-
         // JSON object with date as key
         var entry = {};
         entry[date] = values;
@@ -98,6 +96,8 @@ board.on('ready', function() {
             // Get date from query (ISO-8601 format: e.g. 2011-10-10T14:48:00)
             startDate = new Date(startDate);
             endDate = new Date(endDate);
+
+            console.log(startDate.toLocaleDateString());
 
             // Check if correct date format has been inputted
             if (startDate != null && endDate != null) {
