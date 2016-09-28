@@ -109,7 +109,7 @@ board.on('ready', function() {
                     // Turn into date object
                     var date = new Date(entry["date"]);
 
-                    console.log(entry["date"]);
+                    console.log(entry);
 
                     console.log("start date: ", startDate, " date: ", date, " end date: ", endDate);
 
