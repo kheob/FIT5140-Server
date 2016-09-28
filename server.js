@@ -7,10 +7,16 @@
 var five = require('johnny-five'); // Source: http://johnny-five.io/
 var raspi = require('raspi-io'); // Source: https://github.com/nebrius/raspi-io
 var express = require('express'); // Source: https://expressjs.com/
+var mosca = require('mosca'); // Source: http://www.mosca.io/
 
 // Create a new board object passing in the raspi
 var board = new five.Board({
     io: new raspi()
+});
+
+// New Mosca MQTT server
+var mqtt = new mosca.Server({
+    port: 1883
 });
 
 board.on('ready', function() {
@@ -139,5 +145,22 @@ board.on('ready', function() {
     // Start the server
     app.listen(3000, function() {
         console.log("Server listening on port 3000...");
+    });
+
+    /**
+     * MQTT
+     */
+
+    mqtt.on('clientConnected', function(client) {
+        console.log('client connected', client.id);
+    });
+
+    // fired when a message is received
+    mqtt.on('published', function(packet, client) {
+        console.log('Published', packet.payload);
+    });
+
+    mqtt.on('ready', {
+        console.log("MQTT server listening on port 1883");
     });
 });
