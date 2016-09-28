@@ -47,7 +47,7 @@ board.on('ready', function() {
         var endDate = req.query.endDate;
 
         // Return current values if no params given
-        if (req.query.length == 0) {
+        if (Object.keys(req.query).length == 0) {
             res.json(barometerValues[barometerValues.length - 1]);
         }
 
