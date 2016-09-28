@@ -85,7 +85,7 @@ board.on('ready', function() {
         }
 
         // Return updates within the given start and end dates
-        else if (startDate != null && endDate != null && Object.keys(req.query).length == 1) {
+        else if (startDate != null && endDate != null && Object.keys(req.query).length == 2) {
             // Get date from query (ISO-8601 format: e.g. 2011-10-10T14:48:00)
             startDate = new Date(startDate);
             endDate = new Date(endDate);
