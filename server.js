@@ -20,7 +20,7 @@ board.on('ready', function() {
         elevation: 23 // Elevation from http://www.whatismyelevation.com
     });
 
-    // Add values to an array every time it updates
+    // Add values to the start of an array every time it updates
     var barometerValues = [];
     multi.on('change', function() {
         var values = {
@@ -29,7 +29,7 @@ board.on('ready', function() {
             "altitude": multi.altimeter.meters
         };
 
-        barometerValues.push(values);
+        barometerValues.unshift(values);
     });
 
     // Configure server routes
@@ -48,14 +48,31 @@ board.on('ready', function() {
 
         // Return current values if no params given
         if (Object.keys(req.query).length == 0) {
-            res.json(barometerValues[barometerValues.length - 1]);
+            res.json(barometerValues[0]);
         }
 
-        // Return last N results if a count is given
+        // Return last N updates if a count is given
         else if (count != null) {
             // Try to parse
-            count = parseInt(count);
-            res.json(count);
+            if ((count = parseInt(count)) != null) {
+                // Try to get the last N updates
+                if (count > barometerValues.length) {
+                    // Not enough updates
+                    var output = {
+                        "error": "You requested " + count + " updates, but the system only has " + barometerValues.length + " updates stored. Please try again later.",
+                        "updates": barometerValues
+                    };
+
+                    res.json(output);
+                } else {
+                    res.json(barometerValues.slice(0, count));
+                }
+            } else {
+                // Couldn't parse count value, return error
+                res.json({
+                    "error": "Count parameter must be a valid integer value."
+                });
+            }
         }
 
         // var values = {
