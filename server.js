@@ -65,12 +65,11 @@ board.on('ready', function() {
     // Configure server routes
     var app = express();
 
-    // // Configure static server
-    // app.use(express.static(__dirname + '/static'));
-
     // Homepage shows API doc
+    // API doc generated with Swagger: http://swagger.io/
+    // HTML file generated with bootprint-openapi: https://github.com/bootprint/bootprint-openapi
     app.get('/', function(req, res) {
-        res.sendfile(__dirname + '/static/index.html');
+        res.sendFile(__dirname + '/static/index.html');
     });
 
     /**
