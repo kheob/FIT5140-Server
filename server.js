@@ -80,7 +80,7 @@ board.on('ready', function() {
 
         // Return current values if no params given
         else if (Object.keys(req.query).length === 0) {
-            res.json(barometerValues[0]);
+            res.json([barometerValues[0]]);
         }
 
         // Return last N updates if a count is given
