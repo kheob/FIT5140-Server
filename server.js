@@ -45,6 +45,11 @@ board.on('ready', function() {
 
         barometerValues.unshift(entry);
 
+        // Max size of array is 10 million readings to help with memory issues
+        if (barometerValues.length > 10000000) {
+            barometerValues.pop();
+        }
+
         // Publish values on the MQTT server
         var message = {
             topic: '/barometer',
