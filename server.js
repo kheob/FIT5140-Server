@@ -20,9 +20,17 @@ board.on('ready', function() {
         elevation: 23 // Elevation from http://www.whatismyelevation.com
     });
 
-    // multi.on('change', function() {
-    //     console.log("Temp: ", this.thermometer.celsius, " Pressure: ", this.barometer.pressure, " Altitude: ", this.altimeter.meters);
-    // });
+    // Add values to an array every time it updates
+    var barometerValues = [];
+    multi.on('change', function() {
+        var values = {
+            "temperature": multi.thermometer.celsius,
+            "pressure": multi.barometer.pressure,
+            "altitude": multi.altimeter.meters
+        };
+
+        barometerValues.push(values);
+    });
 
     // Configure server routes
     var app = express();
@@ -33,6 +41,13 @@ board.on('ready', function() {
 
     // Returns the current values of the barometric sensor
     app.get('/barometer', function(req, res) {
+        // Get query params
+        var count = req.query.count;
+        var startDate = req.query.startDate;
+        var endDate = req.query.endDate;
+
+        res.send(count, startDate, endDate);
+
         var values = {
             "temperature": multi.thermometer.celsius,
             "pressure": multi.barometer.pressure,
