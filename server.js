@@ -52,11 +52,11 @@ board.on('ready', function() {
         }
 
         // Return last N results if a count is given
-        if (count != null) {
+        else if (count != null) {
+            // Try to parse
+            count = parseInt(count);
             res.json(count);
         }
-
-        res.send(count, startDate, endDate);
 
         // var values = {
         //     "temperature": multi.thermometer.celsius,
