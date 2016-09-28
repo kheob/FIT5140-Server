@@ -56,9 +56,7 @@ board.on('ready', function() {
             // Try to parse
             count = parseInt(count);
 
-            console.log(count);
-
-            if (count != null) {
+            if (!isNaN(count)) {
                 // Try to get the last N updates
                 if (count > barometerValues.length) {
                     // Not enough updates
