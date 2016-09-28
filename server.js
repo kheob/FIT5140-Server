@@ -32,6 +32,8 @@ board.on('ready', function() {
         // Stores date as ISO string
         var date = new Date().toISOString();
 
+        console.log(new Date().getTimezoneOffset());
+
         // JSON object with date as key
         var entry = {};
         entry[date] = values;
