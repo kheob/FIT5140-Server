@@ -47,7 +47,7 @@ board.on('ready', function() {
 
         // Publish values on the MQTT server
         var message = {
-            topic: 'barometer',
+            topic: '/barometer',
             payload: JSON.stringify(values),
             qos: 0,
             retain: false
