@@ -97,7 +97,7 @@ board.on('ready', function() {
             startDate = new Date(startDate);
             endDate = new Date(endDate);
 
-            console.log(startDate.toLocaleDateString());
+            console.log(startDate.toLocaleTimeString());
 
             // Check if correct date format has been inputted
             if (startDate != null && endDate != null) {
