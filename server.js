@@ -56,7 +56,7 @@ board.on('ready', function() {
             // Try to parse
             count = parseInt(count);
 
-            console.log(typeof count);
+            console.log(count);
 
             if (count != null) {
                 // Try to get the last N updates
