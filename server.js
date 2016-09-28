@@ -44,6 +44,18 @@ board.on('ready', function() {
         entry["values"] = values;
 
         barometerValues.unshift(entry);
+
+        // Publish values on the MQTT server
+        var message = {
+            topic: '/hello/world',
+            payload: 'abcde', // or a Buffer
+            qos: 0, // 0, 1, or 2
+            retain: false // or true
+        };
+
+        mqtt.publish(message, function() {
+            console.log('done!');
+        });
     });
 
     // Configure server routes
