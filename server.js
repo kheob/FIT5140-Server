@@ -98,12 +98,24 @@ board.on('ready', function() {
             startDate = new Date(startDate + offset);
             endDate = new Date(endDate + offset);
 
-            console.log(startDate.toLocaleString(), endDate);
-
             // Check if correct date format has been inputted
             if (startDate != null && endDate != null) {
                 // Get the values between the two dates
+                var retrievedUpdates = [];
 
+                // Retrieve the updates that fall between these two dates
+                for (var dateString in barometerValues) {
+                    // Turn into date object
+                    var date = new Date(dateString);
+
+                    // Check if it lies between the start and end dates
+                    if (date >= startDate && date <= endDate) {
+                        retrievedUpdates.push(barometerValues[dateString]);
+                    }
+                }
+
+                // Return the updates
+                res.json(retrievedUpdates);
             } else {
                 res.json({
                     "error": "Please ensure that you use the correct date format: e.g. '2011-12-20T14:48:00'"
