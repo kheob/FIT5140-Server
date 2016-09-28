@@ -30,11 +30,12 @@ board.on('ready', function() {
         };
 
         // Stores date as ISO string
-        var date = new Date().setUTCHours(10).toISOString();
+        var date = new Date();
+        date.setUTCHours(10);
 
         // JSON object with date as key
         var entry = {};
-        entry[date] = values;
+        entry[date.toISOString()] = values;
 
         barometerValues.unshift(entry);
     });
