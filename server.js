@@ -30,7 +30,7 @@ board.on('ready', function() {
         };
 
         // Stores date as unix time in seconds
-        var date = new Date().getTime() / 1000;
+        var date = new Date();
 
         // JSON object with date as key
         var entry = {};
@@ -53,13 +53,20 @@ board.on('ready', function() {
         var startDate = req.query.startDate;
         var endDate = req.query.endDate;
 
+        // If no values currently, return error message
+        if (barometerValues.length === 0) {
+            res.json({
+                "error": "Can't read values from the sensor. Please try again later."
+            });
+        }
+
         // Return current values if no params given
-        if (Object.keys(req.query).length == 0) {
+        else if (Object.keys(req.query).length === 0) {
             res.json(barometerValues[0]);
         }
 
         // Return last N updates if a count is given
-        else if (count != null && Object.keys(req.query).length == 1) {
+        else if (count != null && Object.keys(req.query).length === 1) {
             // Try to parse
             count = parseInt(count);
 
@@ -85,15 +92,20 @@ board.on('ready', function() {
         }
 
         // Return updates within the given start and end dates
-        else if (startDate != null && endDate != null && Object.keys(req.query).length == 2) {
+        else if (startDate != null && endDate != null && Object.keys(req.query).length === 2) {
             // Get date from query (ISO-8601 format: e.g. 2011-10-10T14:48:00)
             startDate = new Date(startDate);
             endDate = new Date(endDate);
 
-            res.json({
-                "start": startDate,
-                "end": endDate
-            });
+            // Check if correct date format has been inputted
+            if (startDate != null && endDate != null) {
+                // Get the values between the two dates
+
+            } else {
+                res.json({
+                    "error": "Please ensure that you use the correct date format: e.g. '2011-12-20T14:48:00'"
+                });
+            }
         }
 
     });
