@@ -144,7 +144,7 @@ board.on('ready', function() {
 
     // Start the server
     app.listen(3000, function() {
-        console.log("Server listening on port 3000...");
+        console.log("HTTP Server listening on port 3000...");
     });
 
     /**
@@ -161,6 +161,6 @@ board.on('ready', function() {
     });
 
     mqtt.on('ready', function() {
-        console.log("MQTT server listening on port 1883");
+        console.log("MQTT server listening on port 1883...");
     });
 });
