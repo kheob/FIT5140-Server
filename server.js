@@ -52,9 +52,9 @@ board.on('ready', function() {
         }
 
         // Return last N updates if a count is given
-        else if (count != null) {
+        else if (count !== null) {
             // Try to parse
-            if ((count = parseInt(count)) != null) {
+            if ((count = parseInt(count)) !== null) {
                 // Try to get the last N updates
                 if (count > barometerValues.length) {
                     // Not enough updates
