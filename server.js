@@ -99,6 +99,8 @@ board.on('ready', function() {
             startDate = new Date(startDate + offset);
             endDate = new Date(endDate + offset);
 
+            console.log(startDate, endDate);
+
             // Check if correct date format has been inputted
             if (startDate != null && endDate != null) {
                 // Get the values between the two dates
