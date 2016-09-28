@@ -1,1 +1,1 @@
-console.log(new Date().toLocaleTimeString());
+console.log(new Date("2000-10-10T14:12:12+1100"));
