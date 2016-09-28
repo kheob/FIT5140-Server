@@ -46,6 +46,11 @@ board.on('ready', function() {
         var startDate = req.query.startDate;
         var endDate = req.query.endDate;
 
+        // Return current values if no params given
+        if (req.query.length == 0) {
+            res.json(barometerValues[barometerValues.length - 1]);
+        }
+
         res.send(count, startDate, endDate);
 
         // var values = {
