@@ -29,7 +29,13 @@ board.on('ready', function() {
             "altitude": multi.altimeter.meters
         };
 
-        barometerValues.unshift(values);
+        var date = new Date().toDateString();
+
+        // JSON object with date as key
+        var entry = {};
+        entry[date] = values;
+
+        barometerValues.unshift(entry);
     });
 
     // Configure server routes
