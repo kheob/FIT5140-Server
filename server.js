@@ -160,7 +160,7 @@ board.on('ready', function() {
         console.log('Published', packet.payload);
     });
 
-    mqtt.on('ready', {
+    mqtt.on('ready', function() {
         console.log("MQTT server listening on port 1883");
     });
 });
