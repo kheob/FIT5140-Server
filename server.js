@@ -29,8 +29,8 @@ board.on('ready', function() {
             "altitude": multi.altimeter.meters
         };
 
-        // Stores date as unix time in seconds
-        var date = new Date().toISOString();
+        // Stores date as ISO string
+        var date = new Date().setUTCHours(10).toISOString();
 
         // JSON object with date as key
         var entry = {};
