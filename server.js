@@ -31,7 +31,7 @@ board.on('ready', function() {
 
         // Stores date as ISO string
         var date = new Date();
-        date.setUTCHours(10);
+        date.setHours(date.getHours() + 10); // Add 10 hours for local time
 
         // JSON object with date as key
         var entry = {};
