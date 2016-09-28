@@ -109,7 +109,7 @@ board.on('ready', function() {
                     // Turn into date object
                     var date = new Date(entry["date"]);
 
-                    console.log("start date: ", startDate, " date: ", dateString, " end date: ", endDate);
+                    console.log("start date: ", startDate, " date: ", date, " end date: ", endDate);
 
                     // Check if it lies between the start and end dates
                     if (date >= startDate && date <= endDate) {
