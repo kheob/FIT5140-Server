@@ -95,6 +95,7 @@ board.on('ready', function() {
         // Return updates within the given start and end dates
         else if (startDate != null && endDate != null && Object.keys(req.query).length === 2) {
             // Check if correct date format has been inputted
+            // Adapted from: http://stackoverflow.com/a/24989586/6601606
             if (!isNaN(Date.parse(startDate)) && !isNaN(Date.parse(endDate))) {
                 // Get date from query (ISO-8601 format: e.g. 2011-10-10T14:48:00)
                 var offset = "+" + Math.abs(new Date().getTimezoneOffset() / 60 * 100); // Offset for local time
@@ -125,6 +126,12 @@ board.on('ready', function() {
                     "error": "Please ensure that you use the correct date format: e.g. '2011-12-20T14:48:00'"
                 });
             }
+        }
+
+        else {
+            res.json({
+                "error": "Error reading parameters. Use either 'count' to specify the number of updates to retrieve, or 'startDate' and 'endDate' to specify the period of the updates to be returned."
+            });
         }
 
     });
