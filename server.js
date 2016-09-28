@@ -30,7 +30,7 @@ board.on('ready', function() {
         };
 
         // Stores date as unix time in seconds
-        var date = new Date();
+        var date = new Date().toISOString();
 
         // JSON object with date as key
         var entry = {};
