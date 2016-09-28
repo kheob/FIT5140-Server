@@ -51,6 +51,11 @@ board.on('ready', function() {
             res.json(barometerValues[barometerValues.length - 1]);
         }
 
+        // Return last N results if a count is given
+        if (count != null) {
+            res.json(count);
+        }
+
         res.send(count, startDate, endDate);
 
         // var values = {
