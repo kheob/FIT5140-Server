@@ -65,6 +65,11 @@ board.on('ready', function() {
     // Configure server routes
     var app = express();
 
+    // Homepage shows API doc
+    app.get('/', function(req, res) {
+        res.render('static/index.html');
+    });
+
     /**
      * barometric sensor routes
      */
