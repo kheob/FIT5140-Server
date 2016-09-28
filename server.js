@@ -29,7 +29,7 @@ board.on('ready', function() {
             "altitude": multi.altimeter.meters
         };
 
-        var date = new Date().toDateString();
+        var date = new Date().getTime() / 1000;
 
         // JSON object with date as key
         var entry = {};
