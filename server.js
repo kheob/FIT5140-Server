@@ -94,11 +94,11 @@ board.on('ready', function() {
         // Return updates within the given start and end dates
         else if (startDate != null && endDate != null && Object.keys(req.query).length === 2) {
             // Get date from query (ISO-8601 format: e.g. 2011-10-10T14:48:00)
-            var offset = "+1000"; // Offset for local time
+            var offset = "+" + Math.abs(new Date().getTimezoneOffset() / 60 * 100); // Offset for local time
             startDate = new Date(startDate + offset);
             endDate = new Date(endDate + offset);
 
-            console.log(startDate, endDate);
+            console.log(startDate.toLocaleString(), endDate);
 
             // Check if correct date format has been inputted
             if (startDate != null && endDate != null) {
