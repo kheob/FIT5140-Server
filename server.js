@@ -67,7 +67,7 @@ board.on('ready', function() {
 
     // Homepage shows API doc
     app.get('/', function(req, res) {
-        res.render('static/index.html');
+        res.send('static/index.html');
     });
 
     /**
