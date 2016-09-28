@@ -34,7 +34,8 @@ board.on('ready', function() {
 
         // JSON object with date as key
         var entry = {};
-        entry[date] = values;
+        entry["date"] = date;
+        entry["values"] = values;
 
         barometerValues.unshift(entry);
     });
@@ -104,15 +105,15 @@ board.on('ready', function() {
                 var retrievedUpdates = [];
 
                 // Retrieve the updates that fall between these two dates
-                for (var dateString in barometerValues) {
+                for (var entry in barometerValues) {
                     // Turn into date object
-                    var date = new Date(dateString);
+                    var date = new Date(entry["date"]);
 
                     console.log("start date: ", startDate, " date: ", dateString, " end date: ", endDate);
 
                     // Check if it lies between the start and end dates
                     if (date >= startDate && date <= endDate) {
-                        retrievedUpdates.push(barometerValues[dateString]);
+                        retrievedUpdates.push(barometerValues[entry]);
                     }
                 }
 
