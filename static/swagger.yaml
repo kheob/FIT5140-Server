@@ -1,0 +1,74 @@
+# Example YAML to get you started quickly.
+# Be aware that YAML has indentation based scoping.
+# Code completion support is available so start typing for available options.
+swagger: '2.0'
+
+# This is your document metadata
+info:
+  version: "1.0.0"
+  title: FIT5140 Assignment 2 API
+
+# Describe your paths here
+paths:
+  # This is a path endpoint. Change it.
+  /barometer:
+    # This is a HTTP operation
+    get:
+      # Describe this verb here. Note: you can use markdown
+      description: |
+        Gets the current `barometer` values. If no parameters are provided, the current value is returned to the user. The optional parameters below will return an array of results.
+        
+        Examples: 
+        
+        `/barometer`: Returns the current barometer reading
+        
+        `/barometer?count=10`: Returns the latest 10 readings
+        
+        `/barometer?startDate=2016-09-28T15:15:15&endDate=2016-09-29T15:15:15`: Returns all the readings between the start and end dates
+      # This is array of GET operation parameters:
+      parameters:
+        # An example parameter that is in query and is required
+        - name: count
+          in: query
+          description: Size of array
+          required: false
+          type: number
+          format: integer
+        - name: startDate
+          in: query
+          description: Start date of updates range
+          required: false
+          type: string
+          format: iso-8601 date
+        - name: endDate
+          in: query
+          description: End date of updates range
+          required: false
+          type: string
+          format: iso-8601 date
+
+      # Expected responses for this operation:
+      responses:
+        # Response code
+        200:
+          description: Successful response
+          # A schema describing your response object.
+          # Use JSON Schema format
+          schema:
+            title: ArrayOfReadings
+            type: array
+            items:
+              title: Reading
+              type: object
+              properties:
+                date:
+                  type: string
+                values:
+                  type: object
+                  properties:
+                    temperature:
+                      type: number
+                    pressure:
+                      type: number
+                    altitude:
+                      type: number
