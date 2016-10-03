@@ -106,6 +106,8 @@ board.on('ready', function() {
         });
     });
 
+    multi.off();
+
     // Configure server routes
     var app = express();
 
