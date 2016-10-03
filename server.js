@@ -81,7 +81,7 @@ board.on('ready', function() {
         });
 
         // RGB
-        captureColours();
+        captureColour();
     });
 
     // Configure server routes
@@ -242,4 +242,21 @@ function captureColours() {
         console.log("Green: " + green);
         console.log("Blue: " + blue);
     });
+}
+
+// Captures the current value on the RGB sensor and returns as a hex value
+function captureColour() {
+    var colours = {};
+
+    // Read colours and convert to 16 bit number
+    rgbSensor.read(8, function(err, res) {
+        colours.red = res[3] << 8 | res[2];
+        colours.green = res[5] << 8 | res[4];
+        colours.blue = res[7] << 8 | res[6];
+    });
+
+    // Convert to 8 bit
+    colours.forEach(function(colour) {
+        console.log(colour.toString(16));
+    })
 }
