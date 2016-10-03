@@ -342,29 +342,14 @@ function setup() {
     rgbSensor.writeByte(0x80|0x14, function(err){});
 }
 
-function captureColours() {
-    // Read the information, output RGB as 16bit number
-    rgbSensor.read(8, function(err, res) {
-        // Colours are stored in two 8bit address registers, we need to combine them into a 16bit number
-        red = res[3] << 8 | res[2];
-        green = res[5] << 8 | res[4];
-        blue = res[7] << 8 | res[6];
-
-        // Print data to console
-        console.log("Red: " + red);
-        console.log("Green: " + green);
-        console.log("Blue: " + blue);
-    });
-}
-
 // Captures the current value on the RGB sensor and returns as a hex value
 function captureColour(callback) {
     // Read colours and convert to 16 bit number
     rgbSensor.read(8, function(err, res) {
-        var clear = res[0];// << 8 | res[0];
-        var red = res[2];// << 8 | res[2];
-        var green = res[4];// << 8 | res[4];
-        var blue = res[6];// << 8 | res[6];
+        var clear = res[1] << 8 | res[0];
+        var red = res[3] << 8 | res[2];
+        var green = res[5] << 8 | res[4];
+        var blue = res[7] << 8 | res[6];
 
         // Convert to 8 bit number
         // Divide by clear to normalize Source: https://www.hackster.io/windows-iot/what-color-is-it-578fdb
