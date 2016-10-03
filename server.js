@@ -252,7 +252,7 @@ function captureColour() {
         var green = res[5] << 8 | res[4];
         var blue = res[7] << 8 | res[6];
 
-        console.log(red, red.toString(16), green,, green.toString(16), blue, blue.toString(16));
+        console.log(red, red.toString(16), green, green.toString(16), blue, blue.toString(16));
     });
 
     // Convert to 8 bit
