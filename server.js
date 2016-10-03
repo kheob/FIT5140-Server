@@ -8,6 +8,7 @@ var five = require('johnny-five'); // Source: http://johnny-five.io/
 var raspi = require('raspi-io'); // Source: https://github.com/nebrius/raspi-io
 var express = require('express'); // Source: https://expressjs.com/
 var mosca = require('mosca'); // Source: http://www.mosca.io/
+var i2c = require('i2c'); // Source: https://github.com/kelly/node-i2c
 
 // Create a new board object passing in the raspi
 var board = new five.Board({
@@ -19,11 +20,30 @@ var mqtt = new mosca.Server({
     port: 1883
 });
 
+// RGB sensor variables
+// Source: Matthew Kairys
+var address = 0x29;
+var version = 0x44;
+var rgbSensor = new i2c(address, {device: '/dev/i2c-1'});
+var red;
+var green;
+var blue;
+
+// Wait for the board to ready
 board.on('ready', function() {
     // Create new object for the barometric sensor
     var multi = new five.Multi({
         controller: "MPL3115A2",
         elevation: 23 // Elevation from http://www.whatismyelevation.com
+    });
+
+    // Start the RGB sensor
+    rgbSensor.writeByte(0x80|0x12, function(err){});
+    rgbSensor.readByte(function(err, res) {
+        if(res == version) {
+            setup();
+            captureColours();
+        }
     });
 
     // Add values to the start of an array every time it updates
@@ -170,6 +190,8 @@ board.on('ready', function() {
         console.log("HTTP Server listening on port 3000...");
     });
 
+
+
     /**
      * MQTT
      */
@@ -186,3 +208,36 @@ board.on('ready', function() {
         console.log("MQTT server listening on port 1883...");
     });
 });
+
+/**
+ * RGB sensor functions
+ *
+ * Author: Matthew Kairys
+ */
+
+function setup() {
+    // Enable register
+    rgbSensor.writeByte(0x80|0x00, function(err){});
+
+    // Power on and enable RGB sensor
+    rgbSensor.writeByte(0x01|0x02, function(err){});
+
+    // Read results from Register 14 where data values are stored
+    // See TCS34725 Datasheet for breakdown
+    rgbSensor.writeByte(0x80|0x14, function(err){});
+}
+
+function captureColours() {
+    // Read the information, output RGB as 16bit number
+    rgbSensor.read(8, function(err, res) {
+        // Colours are stored in two 8bit address registers, we need to combine them into a 16bit number
+        red = res[3] << 8 | res[2];
+        green = res[5] << 8 | res[4];
+        blue = res[7] << 8 | res[6];
+
+        // Print data to console
+        console.log("Red: " + red);
+        console.log("Green: " + green);
+        console.log("Blue: " + blue);
+    });
+}
