@@ -366,9 +366,9 @@ function captureColour(callback) {
         var blue = res[7];// << 8;// | res[6];
 
         // Convert to 8 bit number
-        red = Math.round((red / 65535) * 255);
-        green = Math.round((green / 65535) * 255);
-        blue = Math.round((blue / 65535) * 255);
+        // red = Math.round((red / 65535) * 255);
+        // green = Math.round((green / 65535) * 255);
+        // blue = Math.round((blue / 65535) * 255);
 
         var rgb = {
             "red": red,
