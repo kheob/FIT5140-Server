@@ -9,6 +9,7 @@ var raspi = require('raspi-io'); // Source: https://github.com/nebrius/raspi-io
 var express = require('express'); // Source: https://expressjs.com/
 var mosca = require('mosca'); // Source: http://www.mosca.io/
 var i2c = require('i2c'); // Source: https://github.com/kelly/node-i2c
+var publicip = require('public-ip'); // Source: https://github.com/sindresorhus/public-ip
 
 // Create a new board object passing in the raspi
 var board = new five.Board({
@@ -298,6 +299,11 @@ board.on('ready', function() {
             });
         }
 
+    });
+
+    // Get public ip address
+    publicip.v4().then(ip => {
+        console.log('Public IP address is ', ip);
     });
 
     // Start the server
