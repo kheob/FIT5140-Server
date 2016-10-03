@@ -25,9 +25,6 @@ var mqtt = new mosca.Server({
 var address = 0x29;
 var version = 0x44;
 var rgbSensor = new i2c(address, {device: '/dev/i2c-1'});
-var red;
-var green;
-var blue;
 
 // Wait for the board to ready
 board.on('ready', function() {
@@ -48,6 +45,7 @@ board.on('ready', function() {
 
     // Add values to the start of an array every time it updates
     var barometerValues = [];
+    var rgbValues = [];
     multi.on('change', function() {
         var values = {
             "temperature": multi.thermometer.celsius,
@@ -58,7 +56,7 @@ board.on('ready', function() {
         // Stores date as ISO string
         var date = new Date().toISOString();
 
-        // JSON object with date as key
+        // JSON object with date as key for barometer readings
         var entry = {};
         entry["date"] = date;
         entry["values"] = values;
@@ -80,8 +78,31 @@ board.on('ready', function() {
         mqtt.publish(message, function() {
         });
 
-        // RGB
-        captureColour();
+        /**
+         * RGB
+         */
+
+            // Add RGB values to array
+        var rgbValues = captureColour();
+        var rgbEntry = {};
+        rgbEntry["date"] = date;
+        rgbEntry["values"] = rgbValues;
+        rgbValues.unshift(rgbEntry);
+
+        // Max size of array is 10 million readings to help with memory issues
+        if (rgbValues.length > 10000000) {
+            rgbValues.pop();
+        }
+
+        // Publish values on the MQTT server
+        var rgbMessage = {
+            topic: '/rgb',
+            payload: JSON.stringify(rgbValues),
+            qos: 0,
+            retain: false
+        };
+        mqtt.publish(rgbMessage, function() {
+        });
     });
 
     // Configure server routes
@@ -95,7 +116,7 @@ board.on('ready', function() {
     });
 
     /**
-     * barometric sensor routes
+     * Barometric sensor routes
      */
 
     // Returns the current values of the barometric sensor
@@ -160,6 +181,98 @@ board.on('ready', function() {
                 // Retrieve the updates that fall between these two dates
                 for (var i in barometerValues) {
                     var entry = barometerValues[i];
+
+                    // Turn into date object
+                    var date = new Date(entry["date"]);
+
+                    // Check if it lies between the start and end dates
+                    if (date >= startDate && date <= endDate) {
+                        retrievedUpdates.push(entry);
+                    }
+                }
+
+                // Return the updates
+                res.json(retrievedUpdates);
+            } else {
+                res.status(400).json({
+                    "error": "Please ensure that you use the correct date format: e.g. '2011-12-20T14:48:00'"
+                });
+            }
+        }
+
+        else {
+            res.status(400).json({
+                "error": "Error reading parameters. Use either 'count' to specify the number of updates to retrieve, or 'startDate' and 'endDate' to specify the period of the updates to be returned."
+            });
+        }
+
+    });
+
+    /**
+     * RGB sensor routes
+     */
+
+    app.get('/rgb', function(req, res) {
+        // Get query params
+        var count = req.query.count;
+        var startDate = req.query.startDate;
+        var endDate = req.query.endDate;
+
+        // If no values currently, return error message
+        if (rgbValues.length === 0) {
+            res.json({
+                "error": "Can't read values from the sensor. Please try again later."
+            });
+        }
+
+        // Return current values if no params given
+        else if (Object.keys(req.query).length === 0) {
+            res.json([rgbValues[0]]);
+        }
+
+        // Return last N updates if a count is given
+        else if (count != null && Object.keys(req.query).length === 1) {
+            // Try to parse
+            count = parseInt(count);
+
+            if (!isNaN(count)) {
+                // Try to get the last N updates
+                if (count > rgbValues.length) {
+                    // Not enough updates
+                    var output = {
+                        "error": "You requested " + count + " updates, but the system only has " + rgbValues.length + " updates stored. Please try again later.",
+                        "updates": rgbValues
+                    };
+
+                    res.json(output);
+                } else {
+                    res.json(rgbValues.slice(0, count));
+                }
+            } else {
+                // Couldn't parse count value, return error
+                res.status(400).json({
+                    "error": "Count parameter must be a valid integer value."
+                });
+            }
+        }
+
+        // Return updates within the given start and end dates
+        else if (startDate != null && endDate != null && Object.keys(req.query).length === 2) {
+            // Check if correct date format has been inputted
+            // Adapted from: http://stackoverflow.com/a/24989586/6601606
+            if (!isNaN(Date.parse(startDate)) && !isNaN(Date.parse(endDate))) {
+                // Get date from query (ISO-8601 format: e.g. 2011-10-10T14:48:00)
+                var offset = "+" + Math.abs(new Date().getTimezoneOffset() / 60 * 100); // Offset for local time
+
+                startDate = new Date(startDate + offset);
+                endDate = new Date(endDate + offset);
+
+                // Get the values between the two dates
+                var retrievedUpdates = [];
+
+                // Retrieve the updates that fall between these two dates
+                for (var i in rgbValues) {
+                    var entry = rgbValues[i];
 
                     // Turn into date object
                     var date = new Date(entry["date"]);
@@ -257,8 +370,10 @@ function captureColour() {
         green = Math.round((green / 65535) * 255);
         blue = Math.round((blue / 65535) * 255);
 
-        console.log(red, red.toString(16), green, green.toString(16), blue, blue.toString(16));
+        return {
+            "red": red,
+            "green": green,
+            "blue": blue
+        };
     });
-
-    // Convert to 8 bit
 }
