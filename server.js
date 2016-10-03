@@ -82,7 +82,7 @@ board.on('ready', function() {
          */
 
         // Add RGB values to array
-        captureColour(function(rgb) {
+        var rgbObject = captureColour(function(rgb) {
             var rgbEntry = {};
             rgbEntry["date"] = date;
             rgbEntry["values"] = rgb;
@@ -97,7 +97,7 @@ board.on('ready', function() {
         // Publish values on the MQTT server
         var rgbMessage = {
             topic: '/rgb',
-            payload: JSON.stringify(rgbValues),
+            payload: JSON.stringify(rgbObject),
             qos: 0,
             retain: false
         };
@@ -370,10 +370,14 @@ function captureColour(callback) {
         green = Math.round((green / 65535) * 255);
         blue = Math.round((blue / 65535) * 255);
 
-        callback({
+        var rgb = {
             "red": red,
             "green": green,
             "blue": blue
-        });
+        };
+
+        callback(rgb);
+
+        return rgb;
     });
 }
