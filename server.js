@@ -39,7 +39,6 @@ board.on('ready', function() {
     rgbSensor.readByte(function(err, res) {
         if(res == version) {
             setup();
-            captureColours();
         }
     });
 
@@ -83,10 +82,10 @@ board.on('ready', function() {
          */
 
             // Add RGB values to array
-        var rgbValues = captureColour();
+        var rgb = captureColour();
         var rgbEntry = {};
         rgbEntry["date"] = date;
-        rgbEntry["values"] = rgbValues;
+        rgbEntry["values"] = rgb;
         rgbValues.unshift(rgbEntry);
 
         // Max size of array is 10 million readings to help with memory issues
