@@ -81,12 +81,13 @@ board.on('ready', function() {
          * RGB
          */
 
-            // Add RGB values to array
-        var rgb = captureColour();
-        var rgbEntry = {};
-        rgbEntry["date"] = date;
-        rgbEntry["values"] = rgb;
-        rgbValues.unshift(rgbEntry);
+        // Add RGB values to array
+        captureColour(function(rgb) {
+            var rgbEntry = {};
+            rgbEntry["date"] = date;
+            rgbEntry["values"] = rgb;
+            rgbValues.unshift(rgbEntry);
+        });
 
         // Max size of array is 10 million readings to help with memory issues
         if (rgbValues.length > 10000000) {
@@ -357,7 +358,7 @@ function captureColours() {
 }
 
 // Captures the current value on the RGB sensor and returns as a hex value
-function captureColour() {
+function captureColour(callback) {
     // Read colours and convert to 16 bit number
     rgbSensor.read(8, function(err, res) {
         var red = res[3] << 8 | res[2];
@@ -369,10 +370,10 @@ function captureColour() {
         green = Math.round((green / 65535) * 255);
         blue = Math.round((blue / 65535) * 255);
 
-        return {
+        callback({
             "red": red,
             "green": green,
             "blue": blue
-        };
+        });
     });
 }
