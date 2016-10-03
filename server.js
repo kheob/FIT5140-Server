@@ -252,6 +252,11 @@ function captureColour() {
         var green = res[5] << 8 | res[4];
         var blue = res[7] << 8 | res[6];
 
+        // Convert to 8 bit number
+        red = (red / 65535) * 255;
+        green = (green / 65535) * 255;
+        blue = (blue / 65535) * 255;
+
         console.log(red, red.toString(16), green, green.toString(16), blue, blue.toString(16));
     });
 
