@@ -77,9 +77,11 @@ board.on('ready', function() {
             qos: 0,
             retain: false
         };
-
         mqtt.publish(message, function() {
         });
+
+        // RGB
+        captureColours();
     });
 
     // Configure server routes
