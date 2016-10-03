@@ -246,17 +246,15 @@ function captureColours() {
 
 // Captures the current value on the RGB sensor and returns as a hex value
 function captureColour() {
-    var colours = {};
+    var red, green, blue;
 
     // Read colours and convert to 16 bit number
     rgbSensor.read(8, function(err, res) {
-        colours.red = res[3] << 8 | res[2];
-        colours.green = res[5] << 8 | res[4];
-        colours.blue = res[7] << 8 | res[6];
+        red = res[3] << 8 | res[2];
+        green = res[5] << 8 | res[4];
+        blue = res[7] << 8 | res[6];
     });
 
     // Convert to 8 bit
-    Object.keys(colours).forEach(function(colour) {
-        console.log(colour, colours[colour].toString(16));
-    });
+    console.log(red, green, blue);
 }
