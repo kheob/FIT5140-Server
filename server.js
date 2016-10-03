@@ -361,10 +361,10 @@ function captureColours() {
 function captureColour(callback) {
     // Read colours and convert to 16 bit number
     rgbSensor.read(8, function(err, res) {
-        var clear = res[1];// << 8 | res[0];
-        var red = res[3];// << 8 | res[2];
-        var green = res[5];// << 8 | res[4];
-        var blue = res[7];// << 8 | res[6];
+        var clear = res[0];// << 8 | res[0];
+        var red = res[2];// << 8 | res[2];
+        var green = res[4];// << 8 | res[4];
+        var blue = res[6];// << 8 | res[6];
 
         // Convert to 8 bit number
         // Divide by clear to normalize Source: https://www.hackster.io/windows-iot/what-color-is-it-578fdb
