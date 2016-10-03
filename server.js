@@ -256,7 +256,7 @@ function captureColour() {
     });
 
     // Convert to 8 bit
-    colours.forEach(function(colour) {
-        console.log(colour.toString(16));
-    })
+    Object.keys(colours).forEach(function(colour) {
+        console.log(colour, colours[colour].toString(16));
+    });
 }
