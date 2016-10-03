@@ -361,14 +361,14 @@ function captureColours() {
 function captureColour(callback) {
     // Read colours and convert to 16 bit number
     rgbSensor.read(8, function(err, res) {
-        var red = res[3];// << 8;// | res[2];
-        var green = res[5];// << 8;// | res[4];
-        var blue = res[7];// << 8;// | res[6];
+        var red = res[2] << 8 | res[3];
+        var green = res[4] << 8 | res[5];
+        var blue = res[6] << 8 | res[7];
 
         // Convert to 8 bit number
-        // red = Math.round((red / 65535) * 255);
-        // green = Math.round((green / 65535) * 255);
-        // blue = Math.round((blue / 65535) * 255);
+        red = Math.round((red / 65535) * 255);
+        green = Math.round((green / 65535) * 255);
+        blue = Math.round((blue / 65535) * 255);
 
         var rgb = {
             "red": red,
