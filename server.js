@@ -35,6 +35,8 @@ for (var i = 0; i < 256; i++) {
     x = Math.pow(x, 2.5);
     x *= 255;
     gammaTable[i] = x;
+
+    console.log(gammaTable[i]);
 }
 
 // Wait for the board to ready
