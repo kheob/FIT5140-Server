@@ -82,26 +82,26 @@ board.on('ready', function() {
          */
 
         // Add RGB values to array
-        var rgbObject = captureColour(function(rgb) {
+        captureColour(function(rgb) {
             var rgbEntry = {};
             rgbEntry["date"] = date;
             rgbEntry["values"] = rgb;
             rgbValues.unshift(rgbEntry);
-        });
 
-        // Max size of array is 10 million readings to help with memory issues
-        if (rgbValues.length > 10000000) {
-            rgbValues.pop();
-        }
+            // Max size of array is 10 million readings to help with memory issues
+            if (rgbValues.length > 10000000) {
+                rgbValues.pop();
+            }
 
-        // Publish values on the MQTT server
-        var rgbMessage = {
-            topic: '/rgb',
-            payload: JSON.stringify(rgbObject),
-            qos: 0,
-            retain: false
-        };
-        mqtt.publish(rgbMessage, function() {
+            // Publish values on the MQTT server
+            var rgbMessage = {
+                topic: '/rgb',
+                payload: JSON.stringify(rgb),
+                qos: 0,
+                retain: false
+            };
+            mqtt.publish(rgbMessage, function() {
+            });
         });
     });
 
