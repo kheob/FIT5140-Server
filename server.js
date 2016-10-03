@@ -26,6 +26,17 @@ var address = 0x29;
 var version = 0x44;
 var rgbSensor = new i2c(address, {device: '/dev/i2c-1'});
 
+// Gamma table for colour correction
+// Source: https://learn.adafruit.com/chameleon-scarf/code
+var gammaTable = [];
+for (var i = 0; i < 256; i++) {
+    var x = i;
+    x /= 255;
+    x = Math.pow(x, 2.5);
+    x *= 255;
+    gammaTable[i] = x;
+}
+
 // Wait for the board to ready
 board.on('ready', function() {
     // Create new object for the barometric sensor
@@ -366,15 +377,16 @@ function captureColour(callback) {
         var green = res[5] << 8 | res[4];
         var blue = res[7] << 8 | res[6];
 
-        // Convert to 8 bit number
+        // Convert to 8 bit number and normalise
+        // Source: https://www.hackster.io/windows-iot/what-color-is-it-578fdb
         red = Math.round((red / clear) * 255);
         green = Math.round((green / clear) * 255);
         blue = Math.round((blue / clear) * 255);
 
         var rgb = {
-            "red": red,
-            "green": green,
-            "blue": blue
+            "red": gammaTable[red],
+            "green": gammaTable[green],
+            "blue": gammaTable[blue]
         };
 
         callback(rgb);
