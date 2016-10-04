@@ -63,8 +63,8 @@ board.on('ready', function() {
 
         barometerValues.unshift(entry);
 
-        // Max size of array is 10 million readings to help with memory issues
-        if (barometerValues.length > 10000000) {
+        // Max size of array is 100 000 readings to help with memory issues
+        if (barometerValues.length > 100000) {
             barometerValues.pop();
         }
 
@@ -89,8 +89,8 @@ board.on('ready', function() {
             rgbEntry["values"] = rgb;
             rgbValues.unshift(rgbEntry);
 
-            // Max size of array is 10 million readings to help with memory issues
-            if (rgbValues.length > 10000000) {
+            // Max size of array is 100 000 readings to help with memory issues
+            if (rgbValues.length > 100000) {
                 rgbValues.pop();
             }
 
