@@ -104,6 +104,8 @@ board.on('ready', function() {
             mqtt.publish(rgbMessage, function() {
             });
         });
+
+        console.log(rgbSensor.readByte(function(err, res){}));
     });
 
     // Configure server routes
