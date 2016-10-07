@@ -353,7 +353,7 @@ function captureColour(callback) {
     // Read colours and convert to 16 bit number
     rgbSensor.read(8, function(err, res) {
         var clear = res[1] << 8 | res[0];
-        var red = res[2] << 8 | res[2];
+        var red = res[2] << 8 | res[3];
         var green = res[5] << 8 | res[4];
         var blue = res[7] << 8 | res[6];
 
