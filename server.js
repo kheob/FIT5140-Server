@@ -359,9 +359,9 @@ function captureColour(callback) {
 
         // Convert to 8 bit number
         // Divide by clear to normalize Source: https://www.hackster.io/windows-iot/what-color-is-it-578fdb
-        red = Math.round((red / clear) * 255);
-        green = Math.round((green / clear) * 255);
-        blue = Math.round((blue / clear) * 255);
+        red = Math.round((red / 65535) * 255);
+        green = Math.round((green / 65535) * 255);
+        blue = Math.round((blue / 65535) * 255);
 
         var rgb = {
             "red": red,
